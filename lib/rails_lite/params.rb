@@ -18,7 +18,7 @@ class Params
   end
 
   def to_s
-    @params.to_s
+    @params.to_json.to_s
   end
 
   private
