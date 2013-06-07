@@ -9,6 +9,8 @@ class ControllerBase
     @req = req
     @res = res
 
+    @already_rendered = false
+
     @params = Params.parse(req, route_params)
   end
 
@@ -17,11 +19,7 @@ class ControllerBase
   end
 
   def already_rendered?
-    if @rendered.nil?
-      false
-    else
-      @rendered
-    end
+    @already_rendered
   end
 
   def redirect_to(url)
@@ -31,7 +29,7 @@ class ControllerBase
     @res.header['location'] = url
     session.store_session(res)
 
-    @rendered = true
+    @already_rendered = true
     nil
   end
 
