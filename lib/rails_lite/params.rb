@@ -1,12 +1,16 @@
 require 'uri'
 
-module Params
-  def self.parse(req, route_params)
+class Params
+  def new(req, route_params)
   end
 
-  def self.parse_www_encoded_form(www_encoded_form)
+  def [](key)
   end
 
-  def self.parse_key(key)
+  private
+  def parse_www_encoded_form(www_encoded_form)
+  end
+
+  def parse_key(key)
   end
 end
