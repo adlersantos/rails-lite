@@ -15,7 +15,7 @@ class Route
 
     route_params = {}
     match_data.names.each do |name|
-      route_params[name.to_sym] = match_data[name]
+      route_params[name] = match_data[name]
     end
 
     @controller_class
