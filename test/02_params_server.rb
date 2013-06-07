@@ -17,12 +17,12 @@ class ExampleController < ControllerBase
 
   def new
     page = <<-END
-<input action="/" method="post">
+<form action="/" method="post">
   <input type="text" name="cat[name]">
   <input type="text" name="cat[owner]">
 
   <input type="submit">
-</input>
+</form>
 END
 
     render_content(page, "text/html")
