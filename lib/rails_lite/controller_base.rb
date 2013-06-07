@@ -11,7 +11,7 @@ class ControllerBase
 
     @already_rendered = false
 
-    @params = Params.parse(req, route_params)
+    @params = Params.new(req, route_params)
   end
 
   def session

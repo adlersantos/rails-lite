@@ -12,7 +12,7 @@ trap('INT') { server.shutdown }
 
 class ExampleController < ControllerBase
   def go
-    render_content("params", "text/json")
+    render_content(params.to_s, "text/json")
   end
 end
 
