@@ -17,8 +17,8 @@ class Params
     @params[key]
   end
 
-  def to_h
-    @params.dup
+  def to_s
+    @params.to_s
   end
 
   private
