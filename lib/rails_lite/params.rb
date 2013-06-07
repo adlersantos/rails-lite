@@ -1,10 +1,13 @@
 require 'uri'
 
 class Params
-  def new(req, route_params)
+  def initialize(req, route_params)
   end
 
   def [](key)
+  end
+
+  def to_s
   end
 
   private
