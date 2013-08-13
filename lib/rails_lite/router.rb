@@ -16,7 +16,9 @@ class Route
   end
 
   def run(req, res)
-    ControllerBase.new(req, res).invoke_action(@acion_name)
+    @controller_class
+      .new(req, res)
+      .invoke_action(@acion_name)
   end
 end
 
