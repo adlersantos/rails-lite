@@ -36,8 +36,7 @@ server.mount_proc '/' do |req, res|
     get Regexp.new("^/statuses$"), StatusController, :index
     get Regexp.new("^/users$"), UserController, :index
 
-    # uncomment this when you get to route params
-#    get Regexp.new("^/statuses/(?<id>\\d+)$"), StatusController, :show
+    get Regexp.new("^/statuses/(?<id>\\d+)$"), StatusController, :show
   end
 
   route = router.run(req, res)

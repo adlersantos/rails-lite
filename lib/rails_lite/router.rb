@@ -13,9 +13,16 @@ class Route
   end
 
   def run(req, res)
+    match_data = @pattern.match(req.path)
+
+    route_params = {}
+    match_data.names.each do |name|
+      route_params[name] = match_data[name]
+    end
+
     @controller_class
-      .new(req, res)
-      .invoke_action(@acion_name)
+      .new(req, res, route_params)
+      .invoke_action(action_name)
   end
 end
 
@@ -35,7 +42,6 @@ class Router
   end
 
   [:get, :post, :put, :delete].each do |http_method|
-    # add these helpers in a loop here
     define_method(http_method) do |pattern, controller_class, action_name|
       add_route(pattern, http_method, controller_class, action_name)
     end
@@ -47,6 +53,7 @@ class Router
 
   def run(req, res)
     matching_route = match(req)
+
     if matching_route.nil?
       res.status = 404
     else
