@@ -32,7 +32,7 @@ class Router
   end
 
   def draw(&proc)
-
+    instance_eval(&proc)
   end
 
   [:get, :post, :put, :delete].each do |http_method|
@@ -48,7 +48,10 @@ class Router
 
   def run(req, res)
     matching_route = match(req)
-    res.status = "404" if matching_route.nil?
-    matching_route.run(req, res)
+    if matching_route.nil?
+      res.status = "404"
+    else
+      matching_route.run(req, res)
+    end
   end
 end
