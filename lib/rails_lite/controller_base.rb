@@ -6,9 +6,11 @@ require_relative 'session'
 class ControllerBase
   attr_reader :params
 
-  def initialize(req, res, route_params={})
+  def initialize(req, res, route_params)
     @request, @response = req, res
     @params = Params.new(req, route_params)
+
+    @already_rendered = false
   end
 
   def session
@@ -16,16 +18,16 @@ class ControllerBase
   end
 
   def already_rendered?
-    !!@already_rendered
+    @already_rendered
   end
 
   def redirect_to(url)
-    unless @response_built
-      @response.status = "302"
+    unless already_rendered?
+      @response.status = 302
       @response.header["location"] = url
 
       session.store_session(@response)
-      @response_built = true
+      @already_rendered = true
     end
   end
 
@@ -37,16 +39,17 @@ class ControllerBase
       session.store_session(@response)
       @already_rendered = true
     end
+    nil
   end
 
   def render(template_name)
     file = File.read("views/#{self.class.to_s.underscore}/#{template_name}.html.erb")
-    eval_contents = eval("ERB.new(file).result(binding)")
-    render_content(eval_contents, 'text/html')
+    contents = ERB.new(file).result(binding)
+    render_content(contents, 'text/html')
   end
 
   def invoke_action(action_name)
-    send(action_name)
+    self.send(action_name)
 
     unless already_rendered?
       render(action_name)
