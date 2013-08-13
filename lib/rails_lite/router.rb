@@ -16,6 +16,7 @@ class Route
   end
 
   def run(req, res)
+    ControllerBase.new(req, res).invoke_action(@acion_name)
   end
 end
 
@@ -31,19 +32,23 @@ class Router
   end
 
   def draw(&proc)
+
   end
 
   [:get, :post, :put, :delete].each do |http_method|
     # add these helpers in a loop here
-    define_method(http_method) do |*args|
-      @routes << Route.new(args[0], http_method, args[1], args[2])
+    define_method(http_method) do |pattern, controller_class, action_name|
+      add_route(pattern, http_method, controller_class, action_name)
     end
   end
 
   def match(req)
-    @routes.detect { |route| self.matches?()}
+    @routes.detect { |route| route.matches?(req)}
   end
 
   def run(req, res)
+    matching_route = match(req)
+    res.status = "404" if matching_route.nil?
+    matching_route.run(req, res)
   end
 end

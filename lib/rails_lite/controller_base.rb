@@ -45,6 +45,11 @@ class ControllerBase
     render_content(eval_contents, 'text/html')
   end
 
-  def invoke_action(name)
+  def invoke_action(action_name)
+    send(action_name)
+
+    unless already_rendered?
+      render(action_name)
+    end
   end
 end
