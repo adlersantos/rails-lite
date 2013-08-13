@@ -36,7 +36,7 @@ class ControllerBase
       @response.content_type = type
       @response.body = content
 
-      session.store_session(@response)
+      session.store_session(response)
       @already_rendered = true
     end
     nil
@@ -50,9 +50,7 @@ class ControllerBase
 
   def invoke_action(action_name)
     self.send(action_name)
-
-    unless already_rendered?
-      render(action_name)
-    end
+    render(action_name) unless already_rendered?
+    nil
   end
 end
