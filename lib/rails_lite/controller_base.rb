@@ -36,7 +36,7 @@ class ControllerBase
       @response.content_type = type
       @response.body = content
 
-      session.store_session(response)
+      session.store_session(@response)
       @already_rendered = true
     end
     nil
